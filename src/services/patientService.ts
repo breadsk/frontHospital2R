@@ -1,7 +1,11 @@
 import axios from 'axios';
 import type { Patient,ApiResponseDTO } from '../types/patient';
 
-const API_URL = 'http://localhost:8080/api/v1/patients';
+//Si la variable no existen en local, usará localhost
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+
+//Aseguramos la barra '/' entre la URL base y el endpoint
+const API_URL = `${BASE_URL.replace(/\/$/,'')}/api/v1/patients`;
 
 export const getPatients = async ():Promise<Patient[]> => {
 
