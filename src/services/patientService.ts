@@ -12,13 +12,16 @@ const CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID || "32o0rot47qlmghao6re
 
 const getAuthHeaders = () => {
   const oidcStorageKey = `oidc.user:${AUTHORITY}:${CLIENT_ID}`;
-  const oidcData = sessionStorage.getItem(oidcStorageKey);
+  
+  // Buscar en sessionStorage primero, luego en localStorage
+  const oidcData = sessionStorage.getItem(oidcStorageKey) || localStorage.getItem(oidcStorageKey);
 
   if (oidcData) {
     try {
       const user = JSON.parse(oidcData);
-      // Usamos id_token o access_token entregado por Cognito
+      // Usar id_token o access_token entregado por Cognito
       const token = user.id_token || user.access_token;
+      
       if (token) {
         return {
           headers: {
@@ -27,10 +30,11 @@ const getAuthHeaders = () => {
         };
       }
     } catch (e) {
-      console.error('Error al parsear el token de Cognito desde sessionStorage', e);
+      console.error('Error al parsear el token de Cognito', e);
     }
   }
 
+  console.warn('No se encontró el token de Cognito en los storages.');
   return {};
 };
 
