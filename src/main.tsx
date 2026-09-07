@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import 'bootstrap/dist/css/bootstrap-grid.min.css'
-import { AuthContext, AuthProvider } from 'react-oidc-context';
+import { AuthProvider } from 'react-oidc-context';
 
 const cognitoAuthConfig = {
   authority: import.meta.env.VITE_COGNITO_AUTHORITY || "https://cognito-idp.sa-east-1.amazonaws.com/sa-east-1_B3GggKnss",
